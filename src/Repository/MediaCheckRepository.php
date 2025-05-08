@@ -4,7 +4,6 @@ namespace WechatMiniProgramSecurityBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use DoctrineEnhanceBundle\Repository\CommonRepositoryAware;
 use WechatMiniProgramSecurityBundle\Entity\MediaCheck;
 
 /**
@@ -15,7 +14,6 @@ use WechatMiniProgramSecurityBundle\Entity\MediaCheck;
  */
 class MediaCheckRepository extends ServiceEntityRepository
 {
-    use CommonRepositoryAware;
 
     public function __construct(ManagerRegistry $registry)
     {
