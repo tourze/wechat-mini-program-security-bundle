@@ -2,7 +2,6 @@
 
 namespace WechatMiniProgramSecurityBundle\Service;
 
-use AppBundle\Entity\BizUser;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\Criteria;
 use Psr\Log\LoggerInterface;
@@ -48,7 +47,7 @@ class SensitiveTextService implements SensitiveTextDetector
         });
     }
 
-    public function checkSensitiveText(string $text, ?BizUser $user = null): bool
+    public function checkSensitiveText(string $text, ?UserInterface $user = null): bool
     {
         $request = new MsgSecurityCheckRequest();
         $request->setScene(1);
