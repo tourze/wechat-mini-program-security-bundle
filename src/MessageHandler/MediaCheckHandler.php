@@ -5,7 +5,7 @@ namespace WechatMiniProgramSecurityBundle\MessageHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use WechatMiniProgramAuthBundle\Repository\UserRepository;
+use Tourze\WechatMiniProgramUserContracts\UserLoaderInterface;
 use WechatMiniProgramBundle\Service\Client;
 use WechatMiniProgramSecurityBundle\Entity\MediaCheck;
 use WechatMiniProgramSecurityBundle\Message\MediaCheckMessage;
@@ -17,7 +17,7 @@ use Yiisoft\Json\Json;
 class MediaCheckHandler
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
+        private readonly UserLoaderInterface $userLoader,
         private readonly Client $client,
         private readonly LoggerInterface $logger,
         private readonly MediaCheckRepository $mediaCheckRepository,
@@ -27,7 +27,7 @@ class MediaCheckHandler
 
     public function __invoke(MediaCheckMessage $message): void
     {
-        $wechatUser = $this->userRepository->findOneBy(['openId' => $message->getOpenId()]);
+        $wechatUser = $this->userLoader->loadUserByOpenId($message->getOpenId());
         if (!$wechatUser) {
             return;
         }

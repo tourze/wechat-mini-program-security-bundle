@@ -4,7 +4,7 @@ namespace WechatMiniProgramSecurityBundle\Service;
 
 use Tourze\DoctrineAsyncBundle\Service\DoctrineService;
 use Tourze\Symfony\Async\Attribute\Async;
-use WechatMiniProgramAuthBundle\Entity\User;
+use Tourze\WechatMiniProgramUserContracts\UserInterface;
 use WechatMiniProgramBundle\Service\Client;
 use WechatMiniProgramSecurityBundle\Entity\MediaCheck;
 use WechatMiniProgramSecurityBundle\Repository\MediaCheckRepository;
@@ -24,7 +24,7 @@ class MediaSecurityService
      * 检查图片是否合法
      */
     #[Async]
-    public function checkImage(User $wechatUser, string $url): void
+    public function checkImage(UserInterface $wechatUser, string $url): void
     {
         $log = $this->mediaCheckRepository->findOneBy(['mediaUrl' => $url]);
         if ($log) {

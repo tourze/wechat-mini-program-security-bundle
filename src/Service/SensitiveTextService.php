@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Tourze\SensitiveTextDetectBundle\Service\SensitiveTextDetector;
+use Tourze\WechatMiniProgramUserContracts\UserLoaderInterface;
 use WechatMiniProgramAuthBundle\Entity\CodeSessionLog;
 use WechatMiniProgramAuthBundle\Repository\CodeSessionLogRepository;
 use WechatMiniProgramAuthBundle\Repository\UserRepository;
@@ -27,6 +28,7 @@ class SensitiveTextService implements SensitiveTextDetector
         private readonly LoggerInterface $logger,
         private readonly CacheInterface $cache,
         private readonly UserRepository $userRepository,
+        private readonly UserLoaderInterface $userLoader,
         private readonly CodeSessionLogRepository $sessionLogRepository,
     ) {
     }
@@ -40,7 +42,7 @@ class SensitiveTextService implements SensitiveTextDetector
         $cacheKey = 'WechatMiniProgramSecurityBundle_ContentSecurityService_' . md5($text);
 
         return $this->cache->get($cacheKey, function (ItemInterface $item) use ($text, $user) {
-            $item->expiresAfter(WEEK_IN_SECONDS);
+            $item->expiresAfter(60 * 60 * 24 * 7);
             $item->tag('WechatMiniProgramSecurityBundle');
 
             return $this->checkSensitiveText($text, $user);
@@ -71,7 +73,7 @@ class SensitiveTextService implements SensitiveTextDetector
             if (!$sessionLog) {
                 return $this->inner->isSensitiveText($text);
             }
-            $wechatUser = $this->userRepository->findOneBy(['openId' => $sessionLog->getOpenId()]);
+            $wechatUser = $this->userLoader->loadUserByOpenId($sessionLog->getOpenId());
         }
         // 如果还是找不到，那我们就放弃
         if (!$wechatUser) {

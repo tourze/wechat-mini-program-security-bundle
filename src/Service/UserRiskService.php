@@ -7,7 +7,7 @@ namespace WechatMiniProgramSecurityBundle\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Tourze\Symfony\Async\Attribute\Async;
-use WechatMiniProgramAuthBundle\Entity\User;
+use Tourze\WechatMiniProgramUserContracts\UserInterface;
 use WechatMiniProgramBundle\Service\Client;
 use WechatMiniProgramSecurityBundle\Entity\RiskLog;
 use WechatMiniProgramSecurityBundle\Request\GetUserRiskRankRequest;
@@ -22,7 +22,7 @@ class UserRiskService
     }
 
     #[Async]
-    public function checkWechatUser(User $user, int $scene, string $clientIp): void
+    public function checkWechatUser(UserInterface $user, int $scene, string $clientIp): void
     {
         $log = new RiskLog();
         $log->setUser($user);

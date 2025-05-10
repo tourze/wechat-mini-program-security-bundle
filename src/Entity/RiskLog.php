@@ -10,7 +10,7 @@ use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
 use Tourze\EasyAdmin\Attribute\Column\ListColumn;
 use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
 use Tourze\ScheduleEntityCleanBundle\Attribute\AsScheduleClean;
-use WechatMiniProgramAuthBundle\Entity\User;
+use Tourze\WechatMiniProgramUserContracts\UserInterface;
 use WechatMiniProgramSecurityBundle\Repository\RiskLogRepository;
 
 #[AsScheduleClean(expression: '12 4 * * *', defaultKeepDay: 90, keepDayEnv: 'WECHAT_MP_RISK_LOG_PERSIST_DAY_NUM')]
@@ -40,7 +40,7 @@ class RiskLog
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
-    private ?User $user = null;
+    private ?UserInterface $user = null;
 
     /**
      * @var int|null 合法值为0,1,2,3,4，数字越大风险越高
@@ -91,12 +91,12 @@ class RiskLog
         return $this->createTime;
     }
 
-    public function getUser(): ?User
+    public function getUser(): ?UserInterface
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?UserInterface $user): self
     {
         $this->user = $user;
 
