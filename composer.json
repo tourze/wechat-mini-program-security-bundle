@@ -13,6 +13,7 @@
     "easycorp/easyadmin-bundle": "^4",
     "nesbot/carbon": "^2.72 || ^3",
     "psr/log": "^3|^2|^1",
+    "symfony/cache-contracts": "^3",
     "symfony/config": "^6.4",
     "symfony/console": "^6.4",
     "symfony/dependency-injection": "^6.4",
