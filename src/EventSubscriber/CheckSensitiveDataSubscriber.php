@@ -3,13 +3,10 @@
 namespace WechatMiniProgramSecurityBundle\EventSubscriber;
 
 use Doctrine\ORM\EntityManagerInterface;
-use FileSystemBundle\Event\AfterFileUploadEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use WechatMiniProgramSecurityBundle\Event\MediaCheckAsyncEvent;
-use WechatMiniProgramSecurityBundle\Message\MediaCheckMessage;
 use WechatMiniProgramSecurityBundle\Repository\MediaCheckRepository;
 use WechatMiniProgramServerMessageBundle\Event\ServerMessageRequestEvent;
 use Yiisoft\Json\Json;
@@ -25,33 +22,33 @@ class CheckSensitiveDataSubscriber
         private readonly LoggerInterface $logger,
         private readonly MediaCheckRepository $mediaCheckRepository,
         private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly MessageBusInterface $messageBus,
         private readonly EntityManagerInterface $entityManager,
+        //private readonly MessageBusInterface $messageBus,
     ) {
     }
 
-    /**
-     * 检查图片内容
-     *
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/sec-check/security.mediaCheckAsync.html
-     */
-    #[AsEventListener]
-    public function onAfterFileUpload(AfterFileUploadEvent $event): void
-    {
-        if (empty($event->getUrl())) {
-            return;
-        }
-
-        $openId = $event->getRequest()->request->get('openId');
-        if (!$openId) {
-            return;
-        }
-
-        $message = new MediaCheckMessage();
-        $message->setOpenId($openId);
-        $message->setUrl($event->getUrl());
-        $this->messageBus->dispatch($message);
-    }
+//    /**
+//     * 检查图片内容
+//     *
+//     * @see https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/sec-check/security.mediaCheckAsync.html
+//     */
+//    #[AsEventListener]
+//    public function onAfterFileUpload(AfterFileUploadEvent $event): void
+//    {
+//        if (empty($event->getUrl())) {
+//            return;
+//        }
+//
+//        $openId = $event->getRequest()->request->get('openId');
+//        if (!$openId) {
+//            return;
+//        }
+//
+//        $message = new MediaCheckMessage();
+//        $message->setOpenId($openId);
+//        $message->setUrl($event->getUrl());
+//        $this->messageBus->dispatch($message);
+//    }
 
     /**
      * 收到服务端消息回调时，同步处理结果到数据库
