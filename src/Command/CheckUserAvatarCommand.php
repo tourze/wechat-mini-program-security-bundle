@@ -14,7 +14,6 @@ use Tourze\LockCommandBundle\Command\LockableCommand;
 use Tourze\Symfony\CronJob\Attribute\AsCronTask;
 use WechatMiniProgramAuthBundle\Entity\User;
 use WechatMiniProgramAuthBundle\Repository\UserRepository;
-use WechatMiniProgramSecurityBundle\Service\MediaSecurityService;
 
 #[AsCronTask('36 */8 * * *')]
 #[AsCommand(name: 'wechat-mini-program:check-user-avatar', description: '检查用户头像并保存')]
@@ -25,7 +24,6 @@ class CheckUserAvatarCommand extends LockableCommand
         private readonly SmartHttpClient $httpClient,
         private readonly MountManager $mountManager,
         private readonly LoggerInterface $logger,
-        private readonly MediaSecurityService $mediaSecurityService,
         private readonly EntityManagerInterface $entityManager,
     ) {
         parent::__construct();
@@ -69,18 +67,6 @@ class CheckUserAvatarCommand extends LockableCommand
                 $user->setAvatarUrl($url);
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
-
-                if ($_ENV['DEFAULT_USER_AVATAR_URL'] !== $url) {
-                    // 进行多一次内容安全检测
-                    try {
-                        $this->mediaSecurityService->checkImage($user, $url);
-                    } catch (\Throwable $exception) {
-                        $this->logger->error('图片内容安全检测报错', [
-                            'url' => $url,
-                            'exception' => $exception,
-                        ]);
-                    }
-                }
             } catch (\Throwable $exception) {
                 $output->writeln($exception->getMessage());
                 continue;
