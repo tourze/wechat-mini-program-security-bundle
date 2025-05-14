@@ -3,13 +3,14 @@
 namespace WechatMiniProgramSecurityBundle\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
-use FileSystemBundle\Service\MountManager;
 use HttpClientBundle\Service\SmartHttpClient;
+use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Tourze\FileNameGenerator\RandomNameGenerator;
 use Tourze\LockCommandBundle\Command\LockableCommand;
 use Tourze\Symfony\CronJob\Attribute\AsCronTask;
 use WechatMiniProgramAuthBundle\Entity\User;
@@ -22,7 +23,8 @@ class CheckUserAvatarCommand extends LockableCommand
     public function __construct(
         private readonly UserRepository $userRepository,
         private readonly SmartHttpClient $httpClient,
-        private readonly MountManager $mountManager,
+        private readonly RandomNameGenerator $randomNameGenerator,
+        private readonly FilesystemOperator $filesystem,
         private readonly LoggerInterface $logger,
         private readonly EntityManagerInterface $entityManager,
     ) {
@@ -54,8 +56,9 @@ class CheckUserAvatarCommand extends LockableCommand
                 $header = $response->getHeaders();
                 if (!isset($header['x-errno']) && 'notexist:-6101' !== $header['x-info'][0]) {
                     $content = $response->getContent();
-                    $key = $this->mountManager->saveContent($content, 'png', 'wechat-mp-user');
-                    $url = $this->mountManager->getImageUrl($key);
+                    $key = $this->randomNameGenerator->generateDateFileName('png', 'wechat-mp-user');
+                    $this->filesystem->write($key, $content);
+                    $url = $this->filesystem->publicUrl($key);
                 } else {
                     $url = $_ENV['DEFAULT_USER_AVATAR_URL'];
                 }
