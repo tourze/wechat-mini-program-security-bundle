@@ -52,5 +52,10 @@
     "psr-4": {
       "WechatMiniProgramSecurityBundle\\": "src"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WechatMiniProgramSecurityBundle\\Tests\\": "tests"
+    }
   }
 }
