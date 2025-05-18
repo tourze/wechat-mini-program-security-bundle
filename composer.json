@@ -37,6 +37,7 @@
     "tourze/symfony-async-bundle": "0.0.*",
     "tourze/symfony-cron-job-bundle": "0.1.*",
     "tourze/symfony-lock-command-bundle": "0.0.*",
+    "tourze/wechat-mini-program-appid-contracts": "0.0.*",
     "tourze/wechat-mini-program-auth-bundle": "0.0.*",
     "tourze/wechat-mini-program-bundle": "0.1.*",
     "tourze/wechat-mini-program-server-message-bundle": "0.0.*",
