@@ -2,7 +2,7 @@
 
 namespace WechatMiniProgramSecurityBundle\Message;
 
-use Tourze\Symfony\Async\Message\AsyncMessageInterface;
+use Tourze\AsyncContracts\AsyncMessageInterface;
 
 class MediaCheckMessage implements AsyncMessageInterface
 {
