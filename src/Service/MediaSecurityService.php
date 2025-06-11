@@ -2,7 +2,7 @@
 
 namespace WechatMiniProgramSecurityBundle\Service;
 
-use Tourze\DoctrineAsyncBundle\Service\DoctrineService;
+use Tourze\DoctrineDirectInsertBundle\Service\DirectInsertService;
 use Tourze\Symfony\Async\Attribute\Async;
 use Tourze\WechatMiniProgramUserContracts\UserInterface;
 use WechatMiniProgramBundle\Service\Client;
@@ -15,7 +15,7 @@ class MediaSecurityService
 {
     public function __construct(
         private readonly MediaCheckRepository $mediaCheckRepository,
-        private readonly DoctrineService $doctrineService,
+        private readonly DirectInsertService $directInsertService,
         private readonly Client $client,
     ) {
     }
@@ -46,7 +46,7 @@ class MediaSecurityService
             $log->setMediaUrl($url);
             $log->setTraceId($res['trace_id']);
             $log->setRawData(Json::encode($res));
-            $this->doctrineService->directInsert($log);
+            $this->directInsertService->directInsert($log);
         }
     }
 }
