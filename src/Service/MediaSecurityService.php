@@ -3,7 +3,7 @@
 namespace WechatMiniProgramSecurityBundle\Service;
 
 use Tourze\DoctrineDirectInsertBundle\Service\DirectInsertService;
-use Tourze\Symfony\Async\Attribute\Async;
+use Tourze\Symfony\AopAsyncBundle\Attribute\Async;
 use Tourze\WechatMiniProgramUserContracts\UserInterface;
 use WechatMiniProgramBundle\Service\Client;
 use WechatMiniProgramSecurityBundle\Entity\MediaCheck;

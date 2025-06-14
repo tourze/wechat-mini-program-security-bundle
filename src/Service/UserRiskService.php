@@ -6,7 +6,7 @@ namespace WechatMiniProgramSecurityBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Tourze\Symfony\Async\Attribute\Async;
+use Tourze\Symfony\AopAsyncBundle\Attribute\Async;
 use Tourze\WechatMiniProgramUserContracts\UserInterface;
 use WechatMiniProgramBundle\Service\Client;
 use WechatMiniProgramSecurityBundle\Entity\RiskLog;
