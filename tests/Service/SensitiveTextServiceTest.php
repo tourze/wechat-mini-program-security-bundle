@@ -104,7 +104,7 @@ class SensitiveTextServiceTest extends TestCase
         $sessionLog = new CodeSessionLog();
         $sessionLog->setOpenId($openId);
         $sessionLog->setAccount($account);
-        $sessionLog->setCreateTime(new \DateTime());
+        $sessionLog->setCreateTime(new \DateTimeImmutable());
         
         // 模拟查找会话日志成功
         $this->sessionLogRepository->expects($this->once())
@@ -167,7 +167,7 @@ class SensitiveTextServiceTest extends TestCase
         $sessionLog = new CodeSessionLog();
         $sessionLog->setOpenId($openId);
         $sessionLog->setAccount($account);
-        $sessionLog->setCreateTime(new \DateTime());
+        $sessionLog->setCreateTime(new \DateTimeImmutable());
         
         // 模拟查找会话日志成功
         $this->sessionLogRepository->expects($this->once())
@@ -282,7 +282,7 @@ class SensitiveTextServiceTest extends TestCase
         // 模拟会话日志（已过期超过2小时）
         $sessionLog = new CodeSessionLog();
         $sessionLog->setOpenId($openId);
-        $sessionLog->setCreateTime((new \DateTime())->modify('-3 hours'));
+        $sessionLog->setCreateTime((new \DateTimeImmutable())->modify('-3 hours'));
         
         // 模拟查找会话日志成功
         $this->sessionLogRepository->expects($this->once())
@@ -339,7 +339,7 @@ class SensitiveTextServiceTest extends TestCase
         $sessionLog = new CodeSessionLog();
         $sessionLog->setOpenId($openId);
         $sessionLog->setAccount($account);
-        $sessionLog->setCreateTime(new \DateTime());
+        $sessionLog->setCreateTime(new \DateTimeImmutable());
         
         // 模拟查找会话日志成功
         $this->sessionLogRepository->expects($this->once())

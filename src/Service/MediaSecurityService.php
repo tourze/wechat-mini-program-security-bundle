@@ -27,7 +27,7 @@ class MediaSecurityService
     public function checkImage(UserInterface $wechatUser, string $url): void
     {
         $log = $this->mediaCheckRepository->findOneBy(['mediaUrl' => $url]);
-        if ($log) {
+        if ((bool) $log) {
             return;
         }
 
@@ -39,7 +39,7 @@ class MediaSecurityService
         $request->setOpenId($wechatUser->getOpenId());
         $request->setScene(1);
         $res = $this->client->request($request);
-        if ($res && isset($res['trace_id'])) {
+        if ($res && (bool) isset($res['trace_id'])) {
             $log = new MediaCheck();
             $log->setOpenId($wechatUser->getOpenId());
             $log->setUnionId($wechatUser->getUnionId());

@@ -59,7 +59,7 @@ class CheckSensitiveDataSubscriber
         $message = $event->getMessage();
 
         // 旧版本的接口，会返回 isrisky
-        if (isset($message['isrisky']) && isset($message['trace_id'])) {
+        if ((bool) isset($message['isrisky']) && isset($message['trace_id'])) {
             $log = $this->mediaCheckRepository->findOneBy([
                 'traceId' => $message['trace_id'],
             ]);
@@ -111,7 +111,7 @@ class CheckSensitiveDataSubscriber
         //        "label": 20002
         //    }
         // }
-        if (isset($message['trace_id']) && isset($message['result']) && isset($message['result']['suggest'])) {
+        if ((bool) isset($message['trace_id']) && isset($message['result']) && isset($message['result']['suggest'])) {
             $log = $this->mediaCheckRepository->findOneBy([
                 'traceId' => $message['trace_id'],
             ]);
@@ -162,7 +162,7 @@ class CheckSensitiveDataSubscriber
         //    "label" => "100"
         //  ]
         // ]
-        if (isset($message['trace_id']) && isset($message['detail'])) {
+        if ((bool) isset($message['trace_id']) && isset($message['detail'])) {
             $log = $this->mediaCheckRepository->findOneBy([
                 'traceId' => $message['trace_id'],
             ]);

@@ -39,7 +39,7 @@ class MediaCheckHandler
         }
 
         $log = $this->mediaCheckRepository->findOneBy(['mediaUrl' => $message->getUrl()]);
-        if ($log) {
+        if ((bool) $log) {
             // 已经检查过了，没必要再继续
             return;
         }
@@ -52,7 +52,7 @@ class MediaCheckHandler
         $request->setOpenId($wechatUser->getOpenId());
         $request->setScene(1);
         $res = $this->client->request($request);
-        if ($res && isset($res['trace_id'])) {
+        if ($res && (bool) isset($res['trace_id'])) {
             $log = new MediaCheck();
             $log->setOpenId($wechatUser->getOpenId());
             $log->setUnionId($wechatUser->getUnionId());

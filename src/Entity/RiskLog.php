@@ -4,23 +4,17 @@ namespace WechatMiniProgramSecurityBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Tourze\DoctrineIndexedBundle\Attribute\IndexColumn;
-use Tourze\DoctrineTimestampBundle\Attribute\CreateTimeColumn;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
-use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
 use Tourze\ScheduleEntityCleanBundle\Attribute\AsScheduleClean;
 use Tourze\WechatMiniProgramUserContracts\UserInterface;
 use WechatMiniProgramSecurityBundle\Repository\RiskLogRepository;
 
 #[AsScheduleClean(expression: '12 4 * * *', defaultKeepDay: 90, keepDayEnv: 'WECHAT_MP_RISK_LOG_PERSIST_DAY_NUM')]
-#[AsPermission(title: '风险记录日志')]
 #[ORM\Entity(repositoryClass: RiskLogRepository::class, readOnly: true)]
 #[ORM\Table(name: 'wechat_mini_program_risk_log', options: ['comment' => '风险记录日志'])]
-class RiskLog
+class RiskLog implements Stringable
 {
-    #[ListColumn(order: -1)]
-    #[ExportColumn]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
@@ -32,10 +26,7 @@ class RiskLog
     }
 
     #[IndexColumn]
-    #[ListColumn(order: 98, sorter: true)]
-    #[ExportColumn]
-    #[CreateTimeColumn]
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['comment' => '创建时间'])]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '创建时间'])]
     private ?\DateTimeInterface $createTime = null;
 
     #[ORM\ManyToOne]
@@ -52,7 +43,6 @@ class RiskLog
      * 恶意等级4：具有明显的恶意特征，如黑产羊毛账号等
      */
     #[IndexColumn]
-    #[ORM\Column(type: Types::INTEGER, nullable: true, options: ['comment' => '用户风险等级'])]
     private ?int $riskRank = null;
 
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => '场景值'])]
@@ -73,10 +63,10 @@ class RiskLog
     #[ORM\Column(length: 60, nullable: true, options: ['comment' => '唯一请求标识'])]
     private ?string $unoinId = null;
 
-    #[ORM\Column(length: 64, nullable: true)]
+#[ORM\Column(length: 64, nullable: true, options: ['comment' => '字段说明'])]
     private ?string $openId = null;
 
-    #[ORM\Column(length: 64, nullable: true)]
+#[ORM\Column(length: 64, nullable: true, options: ['comment' => '字段说明'])]
     private ?string $unionId = null;
 
     public function setCreateTime(?\DateTimeInterface $createdAt): self
@@ -209,5 +199,10 @@ class RiskLog
         $this->unionId = $unionId;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->id;
     }
 }

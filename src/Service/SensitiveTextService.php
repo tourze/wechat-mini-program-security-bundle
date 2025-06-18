@@ -57,7 +57,7 @@ class SensitiveTextService implements SensitiveTextDetector
 
         $wechatUser = null;
         $sessionLog = null;
-        if ($user) {
+        if ((bool) $user) {
             $wechatUser = $this->userRepository->findOneBy(['bizUser' => $user]);
         }
 

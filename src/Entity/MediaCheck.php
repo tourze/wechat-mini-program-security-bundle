@@ -4,21 +4,16 @@ namespace WechatMiniProgramSecurityBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Tourze\DoctrineIpBundle\Attribute\CreateIpColumn;
 use Tourze\DoctrineIpBundle\Attribute\UpdateIpColumn;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
-use Tourze\EasyAdmin\Attribute\Permission\AsPermission;
 use WechatMiniProgramSecurityBundle\Repository\MediaCheckRepository;
 
-#[AsPermission(title: '媒体文件检查')]
 #[ORM\Entity(repositoryClass: MediaCheckRepository::class)]
 #[ORM\Table(name: 'wechat_mini_program_media_check', options: ['comment' => '媒体文件检查'])]
-class MediaCheck
+class MediaCheck implements Stringable
 {
-    #[ListColumn(order: -1)]
-    #[ExportColumn]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
@@ -31,26 +26,24 @@ class MediaCheck
     use TimestampableAware;
 
     #[CreateIpColumn]
-    #[ORM\Column(length: 128, nullable: true, options: ['comment' => '创建时IP'])]
     private ?string $createdFromIp = null;
 
     #[UpdateIpColumn]
-    #[ORM\Column(length: 128, nullable: true, options: ['comment' => '更新时IP'])]
     private ?string $updatedFromIp = null;
 
-    #[ORM\Column(type: Types::STRING, length: 120)]
+#[ORM\Column(type: Types::STRING, length: 120, options: ['comment' => '字段说明'])]
     private ?string $openId = null;
 
-    #[ORM\Column(type: Types::STRING, length: 120, nullable: true)]
+#[ORM\Column(type: Types::STRING, length: 120, nullable: true, options: ['comment' => '字段说明'])]
     private ?string $unionId = null;
 
-    #[ORM\Column(type: Types::STRING, length: 190, unique: true)]
+#[ORM\Column(type: Types::STRING, length: 190, unique: true, options: ['comment' => '字段说明'])]
     private ?string $mediaUrl = null;
 
-    #[ORM\Column(type: Types::STRING, length: 100, unique: true)]
+#[ORM\Column(type: Types::STRING, length: 100, unique: true, options: ['comment' => '字段说明'])]
     private ?string $traceId = null;
 
-    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
+#[ORM\Column(type: Types::BOOLEAN, nullable: true, options: ['comment' => '字段说明'])]
     private ?bool $risky = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true, options: ['comment' => '原始数据'])]
@@ -150,5 +143,10 @@ class MediaCheck
         $this->risky = $risky;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->id;
     }
 }
