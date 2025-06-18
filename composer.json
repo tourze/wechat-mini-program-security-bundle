@@ -30,7 +30,6 @@
     "tourze/doctrine-indexed-bundle": "0.0.*",
     "tourze/doctrine-ip-bundle": "0.0.*",
     "tourze/doctrine-timestamp-bundle": "0.0.*",
-    "tourze/easy-admin-attribute": "0.1.*",
     "tourze/file-name-generator": "0.0.*",
     "tourze/http-client-bundle": "0.1.*",
     "tourze/risky-image-detect-bundle": "0.0.*",
