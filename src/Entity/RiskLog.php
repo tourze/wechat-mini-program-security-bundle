@@ -27,7 +27,7 @@ class RiskLog implements Stringable
 
     #[IndexColumn]
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '创建时间'])]
-    private ?\DateTimeInterface $createTime = null;
+    private ?\DateTimeImmutable $createTime = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
@@ -69,14 +69,14 @@ class RiskLog implements Stringable
 #[ORM\Column(length: 64, nullable: true, options: ['comment' => '字段说明'])]
     private ?string $unionId = null;
 
-    public function setCreateTime(?\DateTimeInterface $createdAt): self
+    public function setCreateTime(?\DateTimeImmutable $createdAt): self
     {
         $this->createTime = $createdAt;
 
         return $this;
     }
 
-    public function getCreateTime(): ?\DateTimeInterface
+    public function getCreateTime(): ?\DateTimeImmutable
     {
         return $this->createTime;
     }

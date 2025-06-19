@@ -20,6 +20,7 @@ use WechatMiniProgramAuthBundle\Repository\UserRepository;
 #[AsCommand(name: 'wechat-mini-program:check-user-avatar', description: '检查用户头像并保存')]
 class CheckUserAvatarCommand extends LockableCommand
 {
+    private const NAME = 'wechat-mini-program:check-user-avatar';
     public function __construct(
         private readonly UserRepository $userRepository,
         private readonly SmartHttpClient $httpClient,
@@ -39,7 +40,7 @@ class CheckUserAvatarCommand extends LockableCommand
 
         $like1 = $qb->expr()->like('u.avatarUrl', $qb->expr()->literal('https://thirdwx.qlogo.cn/%'));
         $like2 = $qb->expr()->like('u.avatarUrl', $qb->expr()->literal('https://wx.qlogo.cn/mmopen%'));
-        $users = $qb->where("u.avatarUrl != '' and u.avatarUrl is not null")
+        $users = $qb->where("u.avatarUrl <> '' and u.avatarUrl is not null")
             ->andWhere($like1)
             ->orWhere($like2)
             ->getQuery()
