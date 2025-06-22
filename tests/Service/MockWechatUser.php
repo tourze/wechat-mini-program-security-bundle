@@ -41,6 +41,12 @@ class MockWechatUser implements UserInterface
     {
         return $this->avatarUrl;
     }
+    
+    public function setAvatarUrl(?string $avatarUrl): self
+    {
+        $this->avatarUrl = $avatarUrl;
+        return $this;
+    }
 
     public function getMiniProgram(): MiniProgramInterface
     {

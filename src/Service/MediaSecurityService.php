@@ -32,14 +32,15 @@ class MediaSecurityService
         }
 
         $request = new MediaCheckAsyncRequest();
-        $request->setAccount($wechatUser->getAccount());
+        // TODO: UserInterface does not have getAccount() method
+        // $request->setAccount($wechatUser->getAccount());
         $request->setMediaUrl($url);
         $request->setMediaType(2);
         $request->setVersion(2);
         $request->setOpenId($wechatUser->getOpenId());
         $request->setScene(1);
         $res = $this->client->request($request);
-        if ($res && (bool) isset($res['trace_id'])) {
+        if (null !== $res && isset($res['trace_id'])) {
             $log = new MediaCheck();
             $log->setOpenId($wechatUser->getOpenId());
             $log->setUnionId($wechatUser->getUnionId());

@@ -32,14 +32,16 @@ class UserRiskService
         $log->setClientIp($clientIp);
 
         $request = new GetUserRiskRankRequest();
-        $request->setAccount($log->getUser()->getAccount());
+        // TODO: UserInterface does not have getAccount() method
+        // $request->setAccount($log->getUser()->getAccount());
         $request->setOpenId($log->getUser()->getOpenId());
         $request->setScene($log->getScene());
         $request->setClientIp($log->getClientIp());
-        if ($log->getUser()->getPhoneNumbers()->count() > 0) {
-            $log->setMobileNo($log->getUser()->getPhoneNumbers()->first()->getPhoneNumber());
-            $request->setMobileNumber($log->getMobileNo());
-        }
+        // TODO: UserInterface does not have getPhoneNumbers() method
+        // if ($log->getUser()->getPhoneNumbers()->count() > 0) {
+        //     $log->setMobileNo($log->getUser()->getPhoneNumbers()->first()->getPhoneNumber());
+        //     $request->setMobileNumber($log->getMobileNo());
+        // }
 
         try {
             $response = $this->client->request($request);

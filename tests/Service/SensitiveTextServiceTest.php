@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Cache\CacheInterface;
-use Symfony\Contracts\Cache\ItemInterface;
 use Tourze\SensitiveTextDetectBundle\Service\SensitiveTextDetector;
 use Tourze\WechatMiniProgramUserContracts\UserLoaderInterface;
 use WechatMiniProgramAuthBundle\Entity\CodeSessionLog;
@@ -29,7 +28,6 @@ class SensitiveTextServiceTest extends TestCase
     private UserLoaderInterface|MockObject $userLoader;
     private CodeSessionLogRepository|MockObject $sessionLogRepository;
     private SensitiveTextService $service;
-    private ItemInterface|MockObject $cacheItem;
 
     protected function setUp(): void
     {
@@ -40,7 +38,6 @@ class SensitiveTextServiceTest extends TestCase
         $this->userRepository = $this->createMock(UserRepository::class);
         $this->userLoader = $this->createMock(UserLoaderInterface::class);
         $this->sessionLogRepository = $this->createMock(CodeSessionLogRepository::class);
-        $this->cacheItem = $this->createMock(ItemInterface::class);
         
         $this->service = new SensitiveTextService(
             $this->inner,

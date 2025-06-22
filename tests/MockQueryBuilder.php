@@ -9,7 +9,7 @@ class MockQueryBuilder
 {
     private mixed $result = null;
 
-    public function __construct(private string $alias = 'a')
+    public function __construct()
     {
     }
 

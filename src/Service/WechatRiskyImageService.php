@@ -22,7 +22,7 @@ class WechatRiskyImageService implements RiskyImageDetector
         $mediaCheck = $this->mediaCheckRepository->findOneBy([
             'mediaUrl' => $image,
         ]);
-        if (!$mediaCheck) {
+        if (null === $mediaCheck) {
             return $this->inner->isRiskyImage($image);
         }
 

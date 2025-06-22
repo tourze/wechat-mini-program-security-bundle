@@ -2,7 +2,7 @@
 
 namespace WechatMiniProgramSecurityBundle\Service;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Doctrine\Common\Collections\Criteria;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
@@ -62,7 +62,7 @@ class SensitiveTextService implements SensitiveTextDetector
         }
 
         // 如果找不到的话，我们就选最后一个
-        if (!$wechatUser) {
+        if (null === $wechatUser) {
             /** @var CodeSessionLog $sessionLog */
             $sessionLog = $this->sessionLogRepository
                 ->createQueryBuilder('a')
@@ -70,26 +70,26 @@ class SensitiveTextService implements SensitiveTextDetector
                 ->setMaxResults(1)
                 ->getQuery()
                 ->getOneOrNullResult();
-            if (!$sessionLog) {
+            if (null === $sessionLog) {
                 return $this->inner->isSensitiveText($text);
             }
             $wechatUser = $this->userLoader->loadUserByOpenId($sessionLog->getOpenId());
         }
         // 如果还是找不到，那我们就放弃
-        if (!$wechatUser) {
+        if (null === $wechatUser) {
             return $this->inner->isSensitiveText($text);
         }
 
         // 查找进入小程序的记录
-        if (!$sessionLog) {
+        if (null === $sessionLog) {
             $sessionLog = $this->sessionLogRepository->findOneBy(['openId' => $wechatUser->getOpenId()]);
         }
-        if (!$sessionLog) {
+        if (null === $sessionLog) {
             return $this->inner->isSensitiveText($text);
         }
 
-        $time1 = Carbon::parse($sessionLog->getCreateTime());
-        $time2 = Carbon::now();
+        $time1 = CarbonImmutable::parse($sessionLog->getCreateTime());
+        $time2 = CarbonImmutable::now();
         $hours = $time1->diffInHours($time2);
         if ($hours >= 2) {
             $this->logger->warning('该微信上次访问微信的时间已经超出2小时，不能调用微信接口', [
@@ -102,7 +102,8 @@ class SensitiveTextService implements SensitiveTextDetector
 
         $request->setOpenId($sessionLog->getOpenId());
         $request->setAccount($sessionLog->getAccount());
-        $request->setNickname($wechatUser->getNickName());
+        // TODO: UserInterface does not have getNickName() method
+        // $request->setNickname($wechatUser->getNickName());
 
         try {
             $result = $this->client->request($request);

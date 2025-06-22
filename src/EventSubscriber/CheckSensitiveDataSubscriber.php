@@ -63,7 +63,7 @@ class CheckSensitiveDataSubscriber
             $log = $this->mediaCheckRepository->findOneBy([
                 'traceId' => $message['trace_id'],
             ]);
-            if (!$log) {
+            if (null === $log) {
                 return;
             }
 
@@ -115,7 +115,7 @@ class CheckSensitiveDataSubscriber
             $log = $this->mediaCheckRepository->findOneBy([
                 'traceId' => $message['trace_id'],
             ]);
-            if (!$log) {
+            if (null === $log) {
                 return;
             }
 
@@ -166,7 +166,7 @@ class CheckSensitiveDataSubscriber
             $log = $this->mediaCheckRepository->findOneBy([
                 'traceId' => $message['trace_id'],
             ]);
-            if (!$log) {
+            if (null === $log) {
                 return;
             }
 
