@@ -18,10 +18,15 @@ class RiskRankSubscriber
     #[AsEventListener]
     public function onCodeToSessionResponse(CodeToSessionResponseEvent $event): void
     {
+        $clientIp = $event->getCodeSessionLog()->getCreatedFromIp();
+        if (null === $clientIp) {
+            return;
+        }
+        
         $this->userRiskService->checkWechatUser(
             $event->getWechatUser(),
             0,
-            $event->getCodeSessionLog()->getCreatedFromIp(),
+            $clientIp,
         );
     }
 }

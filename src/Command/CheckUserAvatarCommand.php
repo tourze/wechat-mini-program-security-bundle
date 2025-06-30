@@ -16,7 +16,7 @@ use Tourze\Symfony\CronJob\Attribute\AsCronTask;
 use WechatMiniProgramAuthBundle\Entity\User;
 use WechatMiniProgramAuthBundle\Repository\UserRepository;
 
-#[AsCronTask('36 */8 * * *')]
+#[AsCronTask(expression: '36 */8 * * *')]
 #[AsCommand(name: self::NAME, description: '检查用户头像并保存')]
 class CheckUserAvatarCommand extends LockableCommand
 {
