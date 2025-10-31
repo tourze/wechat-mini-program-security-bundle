@@ -37,6 +37,9 @@ class MediaCheckAsyncRequest extends WithAccountRequest
         return '/wxa/media_check_async';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         $json = [

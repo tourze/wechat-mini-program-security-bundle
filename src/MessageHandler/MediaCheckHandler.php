@@ -3,7 +3,9 @@
 namespace WechatMiniProgramSecurityBundle\MessageHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Tourze\WechatMiniProgramUserContracts\UserLoaderInterface;
 use WechatMiniProgramBundle\Service\Client;
@@ -14,6 +16,8 @@ use WechatMiniProgramSecurityBundle\Request\MediaCheckAsyncRequest;
 use Yiisoft\Json\Json;
 
 #[AsMessageHandler]
+#[Autoconfigure(public: true)]
+#[WithMonologChannel(channel: 'wechat_mini_program_security')]
 class MediaCheckHandler
 {
     public function __construct(
@@ -33,7 +37,7 @@ class MediaCheckHandler
         }
         // TODO: UserInterface does not have getAccount() method
         // Skipping account check for now
-        if (empty($message->getUrl())) {
+        if ('' === $message->getUrl()) {
             return;
         }
 
@@ -52,7 +56,9 @@ class MediaCheckHandler
         $request->setOpenId($wechatUser->getOpenId());
         $request->setScene(1);
         $res = $this->client->request($request);
-        if (null !== $res && isset($res['trace_id'])) {
+
+        /** @var array<string, mixed>|null $res */
+        if (null !== $res && isset($res['trace_id']) && is_string($res['trace_id'])) {
             $log = new MediaCheck();
             $log->setOpenId($wechatUser->getOpenId());
             $log->setUnionId($wechatUser->getUnionId());

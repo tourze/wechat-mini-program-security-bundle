@@ -22,7 +22,7 @@ class RiskRankSubscriber
         if (null === $clientIp) {
             return;
         }
-        
+
         $this->userRiskService->checkWechatUser(
             $event->getWechatUser(),
             0,

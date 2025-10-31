@@ -53,6 +53,9 @@ class GetUserRiskRankRequest extends WithAccountRequest
         return '/wxa/getuserriskrank';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         $json = [

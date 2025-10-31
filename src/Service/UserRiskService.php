@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace WechatMiniProgramSecurityBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 use Tourze\Symfony\AopAsyncBundle\Attribute\Async;
 use Tourze\WechatMiniProgramUserContracts\UserInterface;
@@ -12,6 +13,7 @@ use WechatMiniProgramBundle\Service\Client;
 use WechatMiniProgramSecurityBundle\Entity\RiskLog;
 use WechatMiniProgramSecurityBundle\Request\GetUserRiskRankRequest;
 
+#[WithMonologChannel(channel: 'wechat_mini_program_security')]
 class UserRiskService
 {
     public function __construct(
@@ -24,6 +26,27 @@ class UserRiskService
     #[Async]
     public function checkWechatUser(UserInterface $user, int $scene, string $clientIp): void
     {
+        $log = $this->createRiskLog($user, $scene, $clientIp);
+        $request = $this->createRiskRequest($log);
+
+        if (null === $request) {
+            return;
+        }
+
+        try {
+            $response = $this->client->request($request);
+            $this->updateLogFromResponse($log, $response);
+        } catch (\Throwable $exception) {
+            $this->handleApiException($exception, $log);
+            throw $exception;
+        }
+
+        $this->entityManager->persist($log);
+        $this->entityManager->flush();
+    }
+
+    private function createRiskLog(UserInterface $user, int $scene, string $clientIp): RiskLog
+    {
         $log = new RiskLog();
         $log->setUser($user);
         $log->setOpenId($user->getOpenId());
@@ -31,41 +54,61 @@ class UserRiskService
         $log->setScene($scene);
         $log->setClientIp($clientIp);
 
-        $request = new GetUserRiskRankRequest();
-        // TODO: UserInterface does not have getAccount() method
-        // $request->setAccount($log->getUser()->getAccount());
-        $request->setOpenId($log->getUser()->getOpenId());
-        $request->setScene($log->getScene());
-        $request->setClientIp($log->getClientIp());
-        // TODO: UserInterface does not have getPhoneNumbers() method
-        // if ($log->getUser()->getPhoneNumbers()->count() > 0) {
-        //     $log->setMobileNo($log->getUser()->getPhoneNumbers()->first()->getPhoneNumber());
-        //     $request->setMobileNumber($log->getMobileNo());
-        // }
+        return $log;
+    }
 
-        try {
-            $response = $this->client->request($request);
-        } catch (\Throwable $exception) {
-            // 48001	小程序无该 api 权限
-            if (48001 === $exception->getCode()) {
-                $this->logger->warning('小程序无该 api 权限', [
-                    'exception' => $exception,
-                    'log' => $log,
-                ]);
-            }
-            // 返回码为 61010，说明 openid 超时，目前传入的 openID 须在 30min 内有效访问小程序，否则会视为超时 openid。如果出现 61010 错误，需要用户用真机在小程序登录过才有效。
-            if (61010 === $exception->getCode()) {
-                $this->logger->warning('用户 openid 超时，需要用户用真机在小程序登录过才有效', [
-                    'exception' => $exception,
-                    'log' => $log,
-                ]);
-            }
-            throw $exception;
+    private function createRiskRequest(RiskLog $log): ?GetUserRiskRankRequest
+    {
+        $request = new GetUserRiskRankRequest();
+
+        $openId = $log->getUser()?->getOpenId();
+        if (null === $openId) {
+            return null;
+        }
+        $request->setOpenId($openId);
+
+        $scene = $log->getScene();
+        if (null === $scene) {
+            return null;
+        }
+        $request->setScene($scene);
+
+        $clientIp = $log->getClientIp();
+        if (null === $clientIp) {
+            return null;
+        }
+        $request->setClientIp($clientIp);
+
+        return $request;
+    }
+
+    private function updateLogFromResponse(RiskLog $log, mixed $response): void
+    {
+        if (!is_array($response)) {
+            return;
         }
 
-        $log->setRiskRank($response['risk_rank']);
-        $log->setUnoinId(strval($response['unoin_id']));
-        $this->entityManager->persist($log);
-        $this->entityManager->flush();
+        $riskRank = $response['risk_rank'] ?? null;
+        if (is_int($riskRank)) {
+            $log->setRiskRank($riskRank);
+        }
+
+        $unoinId = $response['unoin_id'] ?? null;
+        if (null !== $unoinId) {
+            $log->setUnoinId(strval($unoinId));
+        }
+    }
+
+    private function handleApiException(\Throwable $exception, RiskLog $log): void
+    {
+        $context = ['exception' => $exception, 'log' => $log];
+
+        if (48001 === $exception->getCode()) {
+            $this->logger->warning('小程序无该 api 权限', $context);
+        }
+
+        if (61010 === $exception->getCode()) {
+            $this->logger->warning('用户 openid 超时，需要用户用真机在小程序登录过才有效', $context);
+        }
     }
 }

@@ -2,13 +2,30 @@
 
 namespace WechatMiniProgramSecurityBundle\Tests\MessageHandler;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
+use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 use WechatMiniProgramSecurityBundle\MessageHandler\MediaCheckHandler;
 
-class MediaCheckHandlerTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(MediaCheckHandler::class)]
+#[RunTestsInSeparateProcesses]
+final class MediaCheckHandlerTest extends AbstractIntegrationTestCase
 {
-    public function testHandlerExists(): void
+    protected function onSetUp(): void
     {
-        $this->assertTrue(class_exists(MediaCheckHandler::class));
+        // Services are auto-registered, no need to set up anything here
+    }
+
+    public function testInvokeMethodExists(): void
+    {
+        $reflectionClass = new \ReflectionClass(MediaCheckHandler::class);
+        $this->assertTrue($reflectionClass->hasMethod('__invoke'));
+
+        $method = $reflectionClass->getMethod('__invoke');
+        $this->assertTrue($method->isPublic());
+        $this->assertSame(1, $method->getNumberOfParameters());
     }
 }

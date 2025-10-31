@@ -2,6 +2,7 @@
 
 namespace WechatMiniProgramSecurityBundle\Service;
 
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Tourze\DoctrineDirectInsertBundle\Service\DirectInsertService;
 use Tourze\Symfony\AopAsyncBundle\Attribute\Async;
 use Tourze\WechatMiniProgramUserContracts\UserInterface;
@@ -11,6 +12,7 @@ use WechatMiniProgramSecurityBundle\Repository\MediaCheckRepository;
 use WechatMiniProgramSecurityBundle\Request\MediaCheckAsyncRequest;
 use Yiisoft\Json\Json;
 
+#[Autoconfigure(public: true)]
 class MediaSecurityService
 {
     public function __construct(
@@ -40,7 +42,9 @@ class MediaSecurityService
         $request->setOpenId($wechatUser->getOpenId());
         $request->setScene(1);
         $res = $this->client->request($request);
-        if (null !== $res && isset($res['trace_id'])) {
+
+        /** @var array<string, mixed>|null $res */
+        if (null !== $res && isset($res['trace_id']) && is_string($res['trace_id'])) {
             $log = new MediaCheck();
             $log->setOpenId($wechatUser->getOpenId());
             $log->setUnionId($wechatUser->getUnionId());

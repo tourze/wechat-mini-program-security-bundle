@@ -2,19 +2,12 @@
 
 namespace WechatMiniProgramSecurityBundle\DependencyInjection;
 
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Tourze\SymfonyDependencyServiceLoader\AutoExtension;
 
-class WechatMiniProgramSecurityExtension extends Extension
+class WechatMiniProgramSecurityExtension extends AutoExtension
 {
-    public function load(array $configs, ContainerBuilder $container): void
+    protected function getConfigDir(): string
     {
-        $loader = new YamlFileLoader(
-            $container,
-            new FileLocator(__DIR__ . '/../Resources/config')
-        );
-        $loader->load('services.yaml');
+        return \dirname(__DIR__) . '/Resources/config';
     }
 }
