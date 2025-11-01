@@ -41,7 +41,7 @@
     "tourze/http-client-bundle": "0.1.*",
     "tourze/risky-image-detect-bundle": "0.0.*",
     "tourze/sensitive-text-detect-bundle": "0.0.*",
-    "tourze/symfony-aop-async-bundle": "0.0.*",
+    "tourze/symfony-aop-async-bundle": "1.0.*",
     "tourze/symfony-cron-job-bundle": "1.0.*",
     "tourze/symfony-dependency-service-loader": "1.*",
     "tourze/symfony-lock-command-bundle": "1.0.*",
