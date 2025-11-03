@@ -11,6 +11,7 @@ use Tourze\DoctrineIndexedBundle\DoctrineIndexedBundle;
 use Tourze\Symfony\CronJob\CronJobBundle;
 use Tourze\Symfony\RuntimeContextBundle\RuntimeContextBundle;
 use WechatMiniProgramAuthBundle\WechatMiniProgramAuthBundle;
+use Tourze\EasyAdminMenuBundle\EasyAdminMenuBundle;
 
 class WechatMiniProgramSecurityBundle extends Bundle implements BundleDependencyInterface
 {
@@ -22,6 +23,7 @@ class WechatMiniProgramSecurityBundle extends Bundle implements BundleDependency
             CronJobBundle::class => ['all' => true],
             RuntimeContextBundle::class => ['all' => true],
             WechatMiniProgramAuthBundle::class => ['all' => true],
+            EasyAdminMenuBundle::class => ['all' => true],
         ];
     }
 
