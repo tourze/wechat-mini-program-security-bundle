@@ -28,7 +28,7 @@
     "symfony/messenger": "^7.3",
     "symfony/property-access": "^7.3",
     "symfony/security-core": "^7.3",
-    "tourze/async-contracts": "0.0.*",
+    "tourze/async-contracts": "1.0.*",
     "tourze/bundle-dependency": "1.*",
     "tourze/doctrine-async-insert-bundle": "1.0.*",
     "tourze/doctrine-direct-insert-bundle": "1.0.*",
