@@ -47,7 +47,7 @@
     "tourze/symfony-lock-command-bundle": "1.0.*",
     "tourze/symfony-schedule-entity-clean-bundle": "1.0.*",
     "tourze/wechat-mini-program-appid-contracts": "1.0.*",
-    "tourze/wechat-mini-program-auth-bundle": "0.0.*",
+    "tourze/wechat-mini-program-auth-bundle": "1.0.*",
     "tourze/wechat-mini-program-bundle": "1.0.*",
     "tourze/wechat-mini-program-server-message-bundle": "0.0.*",
     "tourze/wechat-mini-program-user-contracts": "0.0.*",
