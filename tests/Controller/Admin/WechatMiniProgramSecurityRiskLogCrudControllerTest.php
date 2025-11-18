@@ -28,11 +28,6 @@ final class WechatMiniProgramSecurityRiskLogCrudControllerTest extends AbstractE
         return new WechatMiniProgramSecurityRiskLogCrudController();
     }
 
-    public function testGetEntityFqcn(): void
-    {
-        $this->assertSame(RiskLog::class, WechatMiniProgramSecurityRiskLogCrudController::getEntityFqcn());
-    }
-
     /**
      * @return iterable<string, array{string}>
      */

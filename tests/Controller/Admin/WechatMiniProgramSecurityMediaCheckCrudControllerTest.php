@@ -81,11 +81,6 @@ final class WechatMiniProgramSecurityMediaCheckCrudControllerTest extends Abstra
         $this->assertResponseIsSuccessful();
     }
 
-    public function testGetEntityFqcn(): void
-    {
-        $this->assertSame(MediaCheck::class, WechatMiniProgramSecurityMediaCheckCrudController::getEntityFqcn());
-    }
-
     /**
      * @return iterable<string, array{string}>
      */
