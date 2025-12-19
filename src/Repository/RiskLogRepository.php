@@ -11,7 +11,7 @@ use WechatMiniProgramSecurityBundle\Entity\RiskLog;
  * @extends ServiceEntityRepository<RiskLog>
  */
 #[AsRepository(entityClass: RiskLog::class)]
-class RiskLogRepository extends ServiceEntityRepository
+final class RiskLogRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

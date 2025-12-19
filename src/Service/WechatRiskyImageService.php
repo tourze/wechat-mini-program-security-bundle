@@ -11,7 +11,7 @@ use WechatMiniProgramSecurityBundle\Repository\MediaCheckRepository;
 // #[When(env: 'dev')]
 // #[AsDecorator(decorates: RiskyImageDetector::class, onInvalid: ContainerInterface::NULL_ON_INVALID_REFERENCE)]
 #[Autoconfigure(public: true)]
-class WechatRiskyImageService implements RiskyImageDetector
+final class WechatRiskyImageService implements RiskyImageDetector
 {
     public function __construct(
         private readonly ?RiskyImageDetector $inner,

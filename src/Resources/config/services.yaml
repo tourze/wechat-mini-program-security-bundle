@@ -3,26 +3,16 @@ services:
   _defaults:
     autowire: true      # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: false
 
   WechatMiniProgramSecurityBundle\Controller\:
     resource: '../../Controller/'
-  WechatMiniProgramSecurityBundle\EventSubscriber\:
-    resource: '../../EventSubscriber/'
-  WechatMiniProgramSecurityBundle\MessageHandler\:
-    resource: '../../MessageHandler/'
   WechatMiniProgramSecurityBundle\Repository\:
     resource: '../../Repository/'
   WechatMiniProgramSecurityBundle\Service\:
     resource: '../../Service/'
-
-  Tourze\FileNameGenerator\RandomNameGenerator: ~
-  
-  # Enable testing framework to provide mocks for these interfaces
-  Tourze\SensitiveTextDetectBundle\Service\SensitiveTextDetector:
+  WechatMiniProgramSecurityBundle\EventSubscriber\:
+    resource: '../../EventSubscriber/'
     public: true
-
-  Tourze\RiskyImageDetectBundle\Service\RiskyImageDetector:
-    public: true
-
-  WechatMiniProgramBundle\Service\Client:
-    public: true
+  WechatMiniProgramSecurityBundle\MessageHandler\:
+    resource: '../../MessageHandler/'

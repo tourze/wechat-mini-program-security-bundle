@@ -18,7 +18,7 @@ use Yiisoft\Json\Json;
 #[AsMessageHandler]
 #[Autoconfigure(public: true)]
 #[WithMonologChannel(channel: 'wechat_mini_program_security')]
-class MediaCheckHandler
+final class MediaCheckHandler
 {
     public function __construct(
         private readonly UserLoaderInterface $userLoader,

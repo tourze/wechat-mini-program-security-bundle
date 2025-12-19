@@ -19,7 +19,7 @@ use Yiisoft\Json\Json;
  * @see https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/sec-check/security.msgSecCheck.html
  */
 #[WithMonologChannel(channel: 'wechat_mini_program_security')]
-class CheckSensitiveDataSubscriber
+final class CheckSensitiveDataSubscriber
 {
     public function __construct(
         private readonly LoggerInterface $logger,

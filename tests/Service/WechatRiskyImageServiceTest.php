@@ -18,8 +18,7 @@ final class WechatRiskyImageServiceTest extends AbstractIntegrationTestCase
 {
     protected function onSetUp(): void
     {
-        // Mock the external dependency
-        self::getContainer()->set('Tourze\RiskyImageDetectBundle\Service\RiskyImageDetector', new MockRiskyImageDetector());
+        // No setup required for this test
     }
 
     public function testServiceInstantiation(): void

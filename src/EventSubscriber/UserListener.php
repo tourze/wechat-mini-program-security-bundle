@@ -14,7 +14,7 @@ use WechatMiniProgramSecurityBundle\Service\MediaSecurityService;
 #[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: UserInterface::class)]
 #[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: UserInterface::class)]
 #[WithMonologChannel(channel: 'wechat_mini_program_security')]
-class UserListener
+final class UserListener
 {
     public function __construct(
         private readonly MediaSecurityService $mediaSecurityService,

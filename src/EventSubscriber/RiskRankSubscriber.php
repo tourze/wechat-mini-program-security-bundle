@@ -9,7 +9,7 @@ use WechatMiniProgramSecurityBundle\Service\UserRiskService;
 /**
  * 当用户进行某些操作时，我们对其进行一些安全检测
  */
-class RiskRankSubscriber
+final class RiskRankSubscriber
 {
     public function __construct(private readonly UserRiskService $userRiskService)
     {

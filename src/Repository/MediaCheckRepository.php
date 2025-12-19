@@ -11,7 +11,7 @@ use WechatMiniProgramSecurityBundle\Entity\MediaCheck;
  * @extends ServiceEntityRepository<MediaCheck>
  */
 #[AsRepository(entityClass: MediaCheck::class)]
-class MediaCheckRepository extends ServiceEntityRepository
+final class MediaCheckRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

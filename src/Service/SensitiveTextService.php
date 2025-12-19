@@ -13,7 +13,7 @@ use Tourze\SensitiveTextDetectBundle\Service\SensitiveTextDetector;
 // #[When(env: 'dev')]
 // #[AsDecorator(decorates: SensitiveTextDetector::class, onInvalid: ContainerInterface::NULL_ON_INVALID_REFERENCE)]
 #[Autoconfigure(public: true)]
-class SensitiveTextService implements SensitiveTextDetector
+final class SensitiveTextService implements SensitiveTextDetector
 {
     public function __construct(
         private readonly ?SensitiveTextDetector $inner,

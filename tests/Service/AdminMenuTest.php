@@ -30,9 +30,6 @@ class AdminMenuTest extends AbstractEasyAdminMenuTestCase
 
         $factory = new MenuFactory();
         $rootItem = $factory->createItem('root');
-
-        // @phpstan-ignore-next-line callable.nonCallable
-        // @phpstan-ignore-next-line symplify.noDynamicName
         $adminMenu($rootItem);
 
         // 验证菜单结构

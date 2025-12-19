@@ -18,8 +18,7 @@ final class SensitiveTextServiceTest extends AbstractIntegrationTestCase
 {
     protected function onSetUp(): void
     {
-        // Mock the external dependency
-        self::getContainer()->set('Tourze\SensitiveTextDetectBundle\Service\SensitiveTextDetector', new MockSensitiveTextDetector());
+        // No setup required for these tests
     }
 
     public function testServiceInstantiation(): void

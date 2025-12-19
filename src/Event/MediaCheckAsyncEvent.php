@@ -5,7 +5,7 @@ namespace WechatMiniProgramSecurityBundle\Event;
 use Symfony\Contracts\EventDispatcher\Event;
 use WechatMiniProgramSecurityBundle\Entity\MediaCheck;
 
-class MediaCheckAsyncEvent extends Event
+final class MediaCheckAsyncEvent extends Event
 {
     public MediaCheck $mediaCheckLog;
 

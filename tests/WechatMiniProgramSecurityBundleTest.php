@@ -9,10 +9,7 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Tourze\PHPUnitSymfonyKernelTest\AbstractBundleTestCase;
 use WechatMiniProgramSecurityBundle\WechatMiniProgramSecurityBundle;
 
-/**
- * @internal
- * @phpstan-ignore symplify.forbiddenExtendOfNonAbstractClass
- */
+
 #[CoversClass(WechatMiniProgramSecurityBundle::class)]
 #[RunTestsInSeparateProcesses]
 final class WechatMiniProgramSecurityBundleTest extends AbstractBundleTestCase

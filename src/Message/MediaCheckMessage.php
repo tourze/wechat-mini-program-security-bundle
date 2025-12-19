@@ -4,7 +4,7 @@ namespace WechatMiniProgramSecurityBundle\Message;
 
 use Tourze\AsyncContracts\AsyncMessageInterface;
 
-class MediaCheckMessage implements AsyncMessageInterface
+final class MediaCheckMessage implements AsyncMessageInterface
 {
     /**
      * @var string 微信用户openId
