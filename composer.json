@@ -49,7 +49,7 @@
     "tourze/wechat-mini-program-appid-contracts": "1.0.*",
     "tourze/wechat-mini-program-auth-bundle": "2.0.*",
     "tourze/wechat-mini-program-bundle": "2.0.*",
-    "tourze/wechat-mini-program-server-message-bundle": "0.1.*",
+    "tourze/wechat-mini-program-server-message-bundle": "0.2.*",
     "tourze/wechat-mini-program-user-contracts": "1.0.*",
     "yiisoft/arrays": "^3",
     "yiisoft/json": "^1.0"
