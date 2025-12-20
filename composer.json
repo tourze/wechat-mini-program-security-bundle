@@ -40,7 +40,7 @@
     "tourze/file-name-generator": "1.0.*",
     "tourze/http-client-bundle": "1.1.*",
     "tourze/risky-image-detect-bundle": "0.1.*",
-    "tourze/sensitive-text-detect-bundle": "1.0.*",
+    "tourze/sensitive-text-detect-bundle": "1.1.*",
     "tourze/symfony-aop-async-bundle": "1.0.*",
     "tourze/symfony-cron-job-bundle": "1.1.*",
     "tourze/symfony-dependency-service-loader": "1.0.*",
