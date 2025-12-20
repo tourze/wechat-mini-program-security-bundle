@@ -42,7 +42,7 @@
     "tourze/risky-image-detect-bundle": "0.2.*",
     "tourze/sensitive-text-detect-bundle": "1.1.*",
     "tourze/symfony-aop-async-bundle": "1.0.*",
-    "tourze/symfony-cron-job-bundle": "1.1.*",
+    "tourze/symfony-cron-job-bundle": "1.2.*",
     "tourze/symfony-dependency-service-loader": "1.0.*",
     "tourze/symfony-lock-command-bundle": "1.1.*",
     "tourze/symfony-schedule-entity-clean-bundle": "1.1.*",
